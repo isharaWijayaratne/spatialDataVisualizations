@@ -610,7 +610,7 @@ Fig1 <- leaflet() %>%
 
 ---
 
-```{r,echo=TRUE, eval=FALSE}
+```{r,echo=TRUE, eval=TRUE}
 Fig1
 ```
 
