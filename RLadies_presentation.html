@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>RLadies_presentation.knit</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="University of Sri Jayewardenepura" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+background-image: url("presentation_images/Talk_flyer.png")
+background-size: cover
+class: right, bottom, inverse
+
+
+
+
+---
+class: inverse, center, middle
+
+# Why use R for Spatial Visualisations?
+
+---
+class:  left, top
+
+
+**1. Rich Ecosystem of Spatial Packages**
+
+R packages designed specifically for spatial data handling:
+
+- _sp_ - provides a more traditional approach for handling point data
+- _sf (simple features)_ - modern successor for handling point data, facilitates integration with _tidyverse_ workflows
+- _raster_ - historic package used for handling raster data     
+- _terra_ - modern successor used for handling raster data
+
+Additionally, R integrates well with specialized mapping tools such as:
+
+- _ggplot2_
+- _plotly_
+- _tmap_ 
+- _leaflet_
+
+
+**2. Integration with Data Manipulation and Analysis**
+
+R's ability to preprocess and manipulate spatial data using tools such as:
+
+- _dplyr_
+- _tidyr_
+
+
+---
+class:  left, top
+
+**3. Interactivity and Web Integration**
+
+R offers the ability to create interactive spatial visualizations with packages such as : 
+
+- _shiny_
+
+Dynamic, web-ready visualizations, capable of enhancing the user experience and broadening the scope for spatial data presentations is made possible with tools such as:
+
+- _leaflet_
+- _plotly_
+
+
+- **4. Reproducibility and Documentation**
+
+
+R users can document their entire spatial analysis process—from data import to visualization—within the same environment, ensuring that others can replicate and validate the analysis, this is made possible with tools such as:
+
+- _RMarkdown_
+- _knitr_
+
+
+---
+class: inverse, center, bottom
+
+
+background-image: url("presentation_images/img0.png")
+background-position: 50% 50%
+class: center, top, inverse
+
+
+## What are the basic Geometric types in Spatial data Visualizations ?
+
+---
+
+In the context of spatial data, there are three fundamental geometric types: 
+
+1) **Points**
+
+- The simplest geometric type, representing discrete locations on the Earth's surface. They are defined by a single pair of coordinates (e.g., latitude and longitude).
+
+- Furthermore, points are used for features that have no area or length, such as cities, landmarks, trees, or any other precise location-based data. 
+
+&lt;br&gt;
+
+2) **Lines (or LineStrings)**
+- Sequences of points connected in order, forming a path. They represent features that have length but no area, capturing the linear dimension of spatial data.
+
+- Lines are used to model linear features such as roads, rivers, railways, or power lines.
+
+
+---
+
+3) **Polygons**
+
+- Are closed shapes defined by a series of connected lines (or points) that form a boundary, representing areas on the Earth's surface.
+
+- Polygons are used to represent features that have an area, such as countries, lakes, land , or building footprints.
+
+
+.pull-left[
+
+&lt;img src="presentation_images/img4.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+&lt;img src="presentation_images/img5.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+class: inverse, center, middle
+
+# What are the types of Data for Spatial Visualizations in  R ?
+
+---
+class:  left, top
+
+
+**1. Vector/Point Data**
+
+Represents individual geographic locations defined by latitude and longitude coordinates, often used to model discrete events or features like cities, weather stations, or specific observations. This type of data is handled using packages like **`sf`** or **`sp`**.
+
+
+
+**2. Raster Data**
+
+Represents spatial data in a grid format, where each cell in the grid holds a value corresponding to a specific geographic area. It is commonly used for continuous data, such as elevation, temperature, or land cover, and can handle large datasets efficiently. In R, packages like **`raster`** and **`terra`** are used to manage, analyze, and visualize raster data.
+
+--
+
+.pull-left[
+
+&lt;img src="presentation_images/img01.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="presentation_images/img02.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-left[
+
+&lt;img src="presentation_images/img03.png" width="90%" style="display: block; margin: auto;" /&gt;
+ 
+ ]
+
+
+---
+class: inverse, center, middle
+
+# Different ways of Projecting Maps
+
+---
+class: left, top
+
+Map projections are classified into three main types based on the mathematical transformations used to represent the Earth's spherical surface on a flat, two-dimensional map.
+
+--
+
+.pull-left[
+- Cylindrical Projections:
+
+&lt;img src="presentation_images/img1.png" width="1164" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+- Planar projections:
+
+
+&lt;img src="presentation_images/img3.png" width="1167" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+
+.pull-left[
+
+- Conical projections:
+
+&lt;img src="presentation_images/img2.png" width="1109" style="display: block; margin: auto;" /&gt;
+
+]
+
+???
+
+
+.pull-right[
+&lt;br&gt;
+.left[
+**nifty**
+]
+Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
+
+---
+class: inverse, center, middle
+
+
+background-image: url("presentation_images/img8.png")
+background-position: 50% 50%
+class: center, top, inverse
+
+# Coordinate Reference Systems (CRS)?
+
+
+---
+
+## What is a Coordinate Reference System (CRS)?
+
+A Coordinate Reference System (CRS) is a framework that defines how spatial data from the Earth's curved, three-dimensional surface is projected onto a two-dimensional map. 
+
+## Types of CRS : 
+
+1) **Geographic CRS:** - uses a three-dimensional spherical surface to define locations on Earth, typically through latitude and longitude coordinates. Exactly  specifies the position of data on the Earth's surface.
+Ex : WGS84 (World Geodetic System 1984)
+
+2) **Projected CRS:** - translates the Earth's curved surface onto a flat plane using mathematical projections, enabling accurate mapping of distances, angles, and areas within specific regions.
+Ex : UTM (Universal Transverse Mercator) Web Mercator (EPSG:3857) 
+
+---
+
+As shown in the figure below, the GCS is spherical and records locations in angular units (usually degrees), whereas the PCS is flat and records locations in linear units (usually meters).
+
+&lt;br&gt;
+
+&lt;img src="presentation_images/img04.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+Choosing the appropriate CRS is crucial for accurate spatial data visualization and analysis, as it directly impacts the representation of distances, angles, and areas on maps.
+
+&lt;br&gt;
+
+&lt;img src="presentation_images/img6.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Components of a CRS :
+
+- **Coordinate System:** - Defines the method for specifying positions, typically using a set of axes (e.g., X and Y for 2D, or X, Y, and Z for 3D) to measure locations in space.
+
+- **Horizontal and Vertical Units:** - Specify the units of measurement (e.g., meters, feet, degrees) for the coordinate values, determining how distances and elevations are represented.
+
+- **Datum:** - Provides a reference point or model of the Earth’s shape, such as a spheroid, to which the coordinate system is anchored, ensuring accuracy in location measurements.
+
+- **Projection Information:** -  Describes the mathematical transformation used to convert the Earth's three-dimensional surface onto a two-dimensional map, affecting how spatial features are represented.
+
+
+---
+class: inverse, center, middle
+
+
+background-image: url("presentation_images/img7.png")
+background-position: 50% 50%
+class: center, middle, inverse
+
+# Shapefiles
+
+---
+## Shapefiles: An Overview
+
+A shapefile is a popular file format for storing spatial data, widely used in Geographic Information Systems (GIS). It consists of multiple files that together describe geographic features such as points, lines, and polygons.
+
+## Components of a Shapefile
+
+A shapefile consists of several files with the same base name but different extensions, each serving a specific role:
+
+- **`.shp`:** Contains the geometry of the features (e.g., points, lines, polygons).
+- **`.shx`:** An index file that provides fast access to the geometry data.
+- **`.dbf`:** Stores attribute data in a dBASE table format, linking each shape to descriptive information.
+- **`.prj`:** Describes the Coordinate Reference System (CRS), defining how the spatial data is projected on a map.
+
+---
+class: inverse, center, middle
+
+# Exploring **`sf`** library package
+
+---
+class: inverse, center, middle
+
+
+background-image: url("presentation_images/sf.png")
+background-position: 50% 50%
+class: center, middle, inverse
+
+---
+
+## Introduction to the sf Package in R
+
+The **`sf`** (simple features) package is a modern and efficient library for handling spatial data in R, providing a user-friendly and consistent approach to working with geographic information. It uses simple feature standards, where spatial data is stored in a data frame-like structure with a special geometry column, making it easy to integrate spatial data with data manipulation tools from the tidyverse.
+
+
+
+## Key Functions of the sf Package
+
+- **`st_read()`:** Reads shapefiles and other spatial data formats, allowing users to import spatial data into R as sf objects.
+
+- **`st_geometry()`:** Inspects the geometry of spatial data, revealing how geographic features are represented (e.g., points, lines, polygons).
+
+- **`st_attributes()`:** Views the attributes or non-spatial data associated with spatial features, such as names, categories, or numerical values.
+
+- **`st_layers()`:** Lists available layers in a spatial data source, useful when working with multi-layer datasets like raster data.
+
+
+---
+
+## Cont. Key Functions of the sf Package
+
+- **`st_as_sf()`:** Converts data frames or other spatial formats into sf objects, enabling them to be used within the sf framework.
+
+- **`st_crs()`:** Retrieves the current Coordinate Reference System (CRS) of a spatial object.
+
+- **`st_transform()`:** Changes the CRS of spatial data, allowing for the projection of data into different coordinate systems for accurate mapping and analysis.
+
+- **`coord_sf(crs = …)`:** Specifies the CRS of spatial data when plotting with ggplot2, ensuring that maps are displayed correctly according to the desired projection.
+
+---
+class: inverse, center, middle
+
+
+background-image: url("presentation_images/started.png")
+background-position: 50% 50%
+class: center, middle, inverse
+
+
+---
+
+First install the required packages :
+
+```r
+# install.packages("devtools")
+# devtools::install_github("thiyangt/ceylon")
+# install.packages(c("ggplot2", "sf", "kableExtra"))
+```
+
+--
+
+.pull-left[
+
+Load the packages :
+
+```r
+library(ceylon)
+library(ggplot2)
+library(sf)
+library(kableExtra)
+
+data(sf_sl_0)
+```
+
+Investigate _sf_sl_0_ simple feature object, which contains geometric data.  
+
+|geometry                       |COUNTRY   |
+|:------------------------------|:---------|
+|MULTIPOLYGON (((481925.5 38... |SRI LANKA |
+
+
+]
+
+--
+
+
+.pull-right[
+
+Plot the Sri Lankan map.
+
+
+```r
+ggplot(sf_sl_0) +
+  geom_sf(fill='yellow') 
+```
+
+![](RLadies_presentation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+]
+---
+
+Investigate the **district** simple feature object, which contains geometric data and attribute data. 
+
+```r
+head(district) %&gt;% 
+  kable()
+```
+
+
+
+|geometry                       |DISTRICT     |Status   | population|
+|:------------------------------|:------------|:--------|----------:|
+|MULTIPOLYGON (((392952.6 59... |[UNKNOWN]    |NA       |         NA|
+|MULTIPOLYGON (((551311.8 58... |AMPARA       |District |     736000|
+|MULTIPOLYGON (((501928.5 71... |ANURADHAPURA |District |     943000|
+|MULTIPOLYGON (((522825 5682... |BADULLA      |District |     886000|
+|MULTIPOLYGON (((609877 5593... |BATTICALOA   |District |     579000|
+|MULTIPOLYGON (((400911.5 49... |COLOMBO      |District |    2455000|
+
+---
+Plot the Sri Lankan map with district data.
+
+
+```r
+district_map &lt;- ggplot() + geom_sf(data = district) +
+                labs(title = "Districts of Sri Lanka")
+```
+
+.pull-left[
+
+
+```r
+district_map 
+```
+
+![](RLadies_presentation_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+]
+
+
+---
+
+
+```r
+library(gridExtra)
+data(district)
+district_map_fill &lt;- ggplot(district) +
+  geom_sf(mapping = aes(fill = DISTRICT ), show.legend = FALSE) +
+  labs(title = "Districts of Sri Lanka"); district_map_fill
+```
+
+![](RLadies_presentation_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+
+---
+class: inverse, center, middle
+
+
+background-image: url("presentation_images/choropleth.png")
+background-position: 30% 30%
+class: center, bottom, inverse
+
+## Let's Creating Choropleth Maps !
+
+---
+
+Create a simple data set.
+
+
+```r
+data &lt;- data.frame(
+  Harvested = c(59869, 48111, 10704, 25327, 2448, 8155),
+  DISTRICT = c("ANURADHAPURA", "BADULLA", "BATTICALOA", "COLOMBO",
+               "JAFFNA", "AMPARA")
+                  )
+```
+
+---
+
+Using the **district** simple feature object include the geometric and attribute data into the data set.
+
+
+```r
+library(dplyr) # required for full_join function
+production_data &lt;-  district %&gt;% full_join( data, by = "DISTRICT")
+head(production_data) %&gt;%
+  kable()
+```
+
+
+
+|geometry                       |DISTRICT     |Status   | population| Harvested|
+|:------------------------------|:------------|:--------|----------:|---------:|
+|MULTIPOLYGON (((392952.6 59... |[UNKNOWN]    |NA       |         NA|        NA|
+|MULTIPOLYGON (((551311.8 58... |AMPARA       |District |     736000|      8155|
+|MULTIPOLYGON (((501928.5 71... |ANURADHAPURA |District |     943000|     59869|
+|MULTIPOLYGON (((522825 5682... |BADULLA      |District |     886000|     48111|
+|MULTIPOLYGON (((609877 5593... |BATTICALOA   |District |     579000|     10704|
+|MULTIPOLYGON (((400911.5 49... |COLOMBO      |District |    2455000|     25327|
+
+---
+
+
+
+```r
+ggplot(production_data) +
+  geom_sf(mapping = aes(fill = Harvested), show.legend = TRUE) +
+  geom_sf_text(aes(label = DISTRICT), size = 1.8, color = "white") +
+  scale_fill_viridis_c(option = "E") #scale_fill_viridis_d() for discrete data 
+```
+
+![](RLadies_presentation_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+```r
+# Color map options: "A","B","C","D","E","F","G","H"  
+```
+
+---
+class: inverse, center, middle
+
+
+background-image: url("presentation_images/bubble_maps.png")
+background-position: 50% 50%
+class: center, bottom, inverse
+style: color: black;
+
+## Bubble Maps using the _leaflet_ package
+
+---
+
+Let's load the dummy data set:
+
+
+```r
+library(readxl)
+survey_data &lt;- read_excel("Survey_Sheet.xlsx")
+survey_data &lt;- data.frame(survey_data)
+head(survey_data) %&gt;%
+  kable() %&gt;%
+  kable_styling(font_size = 12)
+```
+
+&lt;table class="table" style="font-size: 12px; color: black; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Province &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; District &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Longitude &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Latitude &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Rice_Variety &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Stage_of_maturity &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Disease_incidence &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Soil_Type &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southern &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Galle &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.018278 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80.29048 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; At 362 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Vegetative &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2300 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Clay &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southern &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Galle &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.219175 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80.24341 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; BW 372 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Seedling &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4500 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Clay &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southern &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Galle &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.086123 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80.25304 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; At 362 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Seedling &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2500 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Clay &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southern &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Galle &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.086123 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80.25304 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; BW 367 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Seedling &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Clay &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southern &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Galle &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.085228 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80.25144 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; At 362 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Vegetative &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.9200 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Clay &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Southern &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Galle &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.085228 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 80.25144 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; At 362 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Vegetative &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5666 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Clay &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+This data set shows the different locations visited, as well as the **Rice Variety**, **Stage of maturity**, **Disease incidence**, and **Soil Type** at each of these locations.
+
+---
+
+## Spacially Visualizing the information in the data set  
+
+
+Five main plots have been created using the **`leaflet`** package:
+
+*   Plot of locations visited.
+*   Plot of Disease incidence at each location, where the points at each location are proportional to the Disease incidence.
+*   Plot of Disease incidence at each location color-coded with respect to Rice Variety, where the points at each location are proportional to the Disease incidence.
+*   Plot of Disease incidence at each location color-coded with respect to Stage of maturity.
+*   Plot of Disease incidence at each location color-coded with respect to Soil Type.
+
+
+---
+
+## Key features of the **`leaflet`** library package in R
+
+-   **_Interactive Maps_** : _leaflet_ enables the creation of maps with interactive elements like markers, popups, polygons, and lines. Users can interact with these elements by clicking, hovering, and zooming, making the maps highly engaging and informative.
+
+-   **_Tile Layers_** : You can overlay different tile layers from various sources (e.g., OpenStreetMap, Mapbox) to provide context to your map. This helps users understand the geographic context of your data. (In this section, a map of Sri Lanka in red has been overlaid on a tiled map using the addTiles() command.)
+
+-   **_Geo-spatial Interaction_** : _leaflet_ supports geospatial interactions such as zooming, making it easy to navigate through maps containing a large amount of data.
+
+---
+
+Load the following packages :
+
+```r
+library(sf)
+library(leaflet)
+library(ceylon)
+library(tidyverse)
+library(dplyr)
+library(viridis)
+```
+
+    
+Manipulating and transforming spatial data using the **`sf`** package. 
+
+```r
+# Convert your data to a sf object
+sf_data &lt;- st_as_sf(survey_data, coords = c("Latitude","Longitude"))
+
+# Set the CRS EPSG 4326 (WGS 84)
+st_crs(sf_data) &lt;- 4326 
+```
+
+
+---
+
+
+```r
+# Transform sf_data to match the CRS of the district boundaries
+# Ensures both data sets use the same CRS
+newdata_sf &lt;- st_transform(sf_data, crs = st_crs(district))
+
+# Transform the district boundaries to EPSG 4326 (WGS 84)
+district_WGS84 &lt;- st_transform(district, 4326)
+
+# Transform coordinates of newdata_sf to EPSG 4326 (WGS 84)
+newdata_sf_WGS84 &lt;- st_transform(newdata_sf, 4326)
+```
+
+
+#### Figure 1: Plot of locations visited
+
+
+
+```r
+Fig1 &lt;- leaflet() %&gt;%
+  addPolygons(data = district_WGS84, fillOpacity = 0.2,
+              smoothFactor = 0.1, weight = 1, color = "red") %&gt;%
+  addCircleMarkers(data = newdata_sf_WGS84, color = "blue",
+    popup = ~as.character(District),
+                   radius = 1, fillOpacity = 0.7) %&gt;%
+  addTiles() #used to add the base map
+```
+
+---
+
+
+```r
+Fig1
+```
+
+
+---
+
+#### Figure 2: Plot of Disease incidence at each location
+
+
+The radius of circular markers is determined by the **Disease_incidence** variable, which is normalized using the **scales::rescale()** function. The values are scaled between a range of **min_radius** and **max_radius**, adjusting the marker size accordingly. 
+
+
+```r
+max_radius &lt;- 25  # Set the maximum and minimum radius size
+min_radius &lt;- 1   # Set the minimum radius size
+
+# Normalize the "Disease_incidence" variable to the range of radius values
+normalized_radius &lt;- scales::rescale(
+  newdata_sf_WGS84$Disease_incidence,
+  to = c(min_radius, max_radius))
+```
+
+
+```r
+Fig2 &lt;- leaflet() %&gt;%
+  addPolygons(data = district_WGS84, fillOpacity = 0.2,
+              smoothFactor = 0.1, weight = 1, #border weight
+              color = "red") %&gt;%  #border color
+  addCircleMarkers(
+    data = newdata_sf_WGS84,
+    color = "darkgreen", #Colour of circular markers
+    radius = normalized_radius, #use the calculated normalized radius values
+    fillOpacity = 0.1, popup = ~as.character(Disease_incidence) #pop up on click
+  ) %&gt;% addTiles() #used to add the base map
+```
+
+---
+
+
+```r
+Fig2
+```
+
+
+---
+
+#### Figure3: Plot of Disease incidence at each location color-coded with respect to Rice Variety.
+
+
+```r
+# Introduce a color palette of 23 for each unique Rice variety
+color_palette &lt;- c("#00CCFF", "#FF9900", "#FFC2B5",
+                   "#FF00FF", "#286C3B", "#C0717C",
+                   "#CBD588", "#5F7FC7", "#FF3300",
+                   "#FFFF00", "#9900FF", "#508578",
+                   "#00FF33", "#689030", "#AD6F3B",
+                   "#CD9BCD", "#D14285", "#6DDE88",
+                   "#652926", "#005DFF", "#C84248",
+                   "#8569D5", "#5E738F")
+```
+
+
+---
+
+
+```r
+Fig3 &lt;- leaflet() %&gt;%
+  addPolygons(data = district_WGS84, fillOpacity = 0.2,
+              smoothFactor = 0.1, weight = 1,
+              color = "red") %&gt;%
+  addCircleMarkers(
+    data = newdata_sf_WGS84,
+    color = ~color_palette[match(Rice_Variety,
+    unique(newdata_sf_WGS84$Rice_Variety))],
+    # Use the calculated normalized radius values
+    radius = normalized_radius,  
+    fillOpacity = 0.3,
+    # Add popup labels with the Rice_Variety value
+    popup = ~as.character(Rice_Variety)  
+  ) %&gt;%
+  addTiles() %&gt;%
+  addLegend(
+    "bottomright",  # You can adjust the position of the legend
+    title = "Rice Varieties",
+    colors = color_palette,
+    labels = unique(newdata_sf_WGS84$Rice_Variety),
+    opacity = 1
+  )
+```
+
+
+---
+
+
+```r
+Fig3
+```
+
+---
+
+####  Figure 4: Plot of Disease incidence at each location color-coded with respect to Stage of maturity.
+
+
+```r
+# Introduce a color palette of 4 for each unique Stage of maturity
+color_palette &lt;- c("#00CCFF", "red", "#652926","black")
+```
+
+
+
+```r
+Fig4 &lt;- leaflet() %&gt;%
+  addPolygons(data = district_WGS84, fillOpacity = 0.2,
+              smoothFactor = 0.1, weight = 1, 
+              color = "red") %&gt;%
+  addCircleMarkers(
+    data = newdata_sf_WGS84,
+    color = ~color_palette[match(Stage_of_maturity,
+      unique(newdata_sf_WGS84$Stage_of_maturity))],
+      # Use the calculated normalized radius values
+      radius = normalized_radius, 
+      fillOpacity = 0.3,
+      # Add popup labels with the Stage_of_maturity
+      popup = ~as.character(Stage_of_maturity)) %&gt;% 
+      addTiles() %&gt;%
+      addLegend( "bottomright",  #Adjust the position of the legend
+      title = "Stage of maturity", colors = color_palette,
+      labels = unique(newdata_sf_WGS84$Stage_of_maturity),
+      opacity = 1 )
+```
+
+
+---
+
+
+```r
+Fig4
+```
+
+---
+####  Figure 5: Plot of Disease incidence at each location color-coded with respect to Soil Type.
+
+
+```r
+# Introduce a color palette of 6 colors for each unique Soil type
+color_palette &lt;- c("#00CCFF", "#FF00FF", "#FFFF00", "#00FF33",
+                   "#652926", "#005DFF")
+```
+
+
+
+```r
+Fig5 &lt;- leaflet() %&gt;%
+  addPolygons(data = district_WGS84, fillOpacity = 0.2,
+              smoothFactor = 0.1, weight = 1, color = "red") %&gt;%
+  addCircleMarkers(
+    data = newdata_sf_WGS84,
+    color = ~color_palette[match(Soil_Type,
+            unique(newdata_sf_WGS84$Soil_Type))],
+    radius = normalized_radius, #Calculated normalized radius values
+    fillOpacity = 0.3,
+    popup = ~as.character(Soil_Type)   ) %&gt;% 
+  addTiles() %&gt;%
+  addLegend(
+    "bottomright",  # Position of the legend
+    title = "Soil Type",
+    colors = color_palette,
+    labels = unique(newdata_sf_WGS84$Soil_Type),
+    opacity = 1)
+```
+
+
+---
+
+
+```r
+Fig5
+```
+
+
+---
+class: center, middle
+
+# Thanks!
+
+Slides created by **Ishara Wijayaratne**
+
+Reach me through email: ishara.wijayaratne@gmail.com
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
