@@ -19,8 +19,6 @@ Various types of visualizations discussed during this talk are as follows:
 #### Bubble Maps
 ![Bubble Maps](https://github.com/isharaWijayaratne/spatialDataVisualizations/blob/main/presentation_images/bubble_maps.png)
 
-#### [Interactive Maps (Download to View)](https://drive.google.com/file/d/1oEWq9bTVn8mbkmRTfCxDBbLJ0IxP6eY5/view?usp=drive_link) 
-
 
 Furthermore, I developed a comprehensive [manual](https://drive.google.com/file/d/1oDOCXKad6s70uYlh_Tyhon68yMG_TS7N/view?usp=drive_link) that provides detailed, step-by-step instructions on spatial data visualization.
 
