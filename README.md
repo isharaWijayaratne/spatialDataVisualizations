@@ -11,9 +11,11 @@ One of the key takeaways from my talk was the importance of visualizing the enti
 
 Various types of visualizations discussed during this talk are as follows:
 
-#### ![Choropleth Maps](https://github.com/isharaWijayaratne/spatialDataVisualizations/blob/main/presentation_images/choropleth.png)
+#### Choropleth Maps
+![Choropleth Maps](https://github.com/isharaWijayaratne/spatialDataVisualizations/blob/main/presentation_images/choropleth.png)
 
-#### ![Bubble Maps](https://github.com/isharaWijayaratne/spatialDataVisualizations/blob/main/presentation_images/bubble_maps.png)
+#### Bubble Maps
+![Bubble Maps](https://github.com/isharaWijayaratne/spatialDataVisualizations/blob/main/presentation_images/bubble_maps.png)
 
 #### [Interactive Maps (Download to View)](https://drive.google.com/file/d/1oEWq9bTVn8mbkmRTfCxDBbLJ0IxP6eY5/view?usp=drive_link) 
 
