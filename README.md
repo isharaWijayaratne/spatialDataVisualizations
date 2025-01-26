@@ -11,6 +11,8 @@ One of the key takeaways from my talk was the importance of visualizing the enti
 
 Various types of visualizations discussed during this talk are as follows:
 
+#### [Interactive Maps (Download to View)](https://drive.google.com/file/d/1oEWq9bTVn8mbkmRTfCxDBbLJ0IxP6eY5/view?usp=drive_link) 
+
 #### Choropleth Maps
 ![Choropleth Maps](https://github.com/isharaWijayaratne/spatialDataVisualizations/blob/main/presentation_images/choropleth.png)
 
